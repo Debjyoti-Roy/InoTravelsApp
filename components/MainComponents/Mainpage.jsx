@@ -29,6 +29,7 @@ const Mainpage = () => {
   const [visible, setVisible] = useState(false);
   const [selected, setSelected] = useState('');
   const locations = ['Kolkata', 'Mumbai', 'Delhi', 'Bangalore'];
+  const [inputWidth, setInputWidth] = useState(0);
 
   const handleDateChange = (event, selectedDate) => {
     if (selectedDate) {
@@ -57,40 +58,7 @@ const Mainpage = () => {
         <View style={styles.searchBox}>
           <Text style={styles.title}>Find Your Perfect Stay</Text>
           <Text style={styles.label}>Location</Text>
-          {/* <TextInput
-            style={styles.input}
-            placeholder="Select location"
-            placeholderTextColor="#666"
-            value={location}
-            onChangeText={setLocation}
-          /> */}
-          {/* <Text style={{ marginBottom: 8 }}>Location</Text> */}
           {/* <Menu
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          anchor={
-            <TouchableOpacity
-              style={styles.input}
-              onPress={() => setVisible(true)}
-            >
-              <Text style={selected ? styles.inputText : styles.placeholderText}>
-                {selected || 'Select location'}
-              </Text>
-            </TouchableOpacity>
-          }
-        >
-          {locations.map((location, index) => (
-            <Menu.Item
-              key={index}
-              onPress={() => {
-                setSelected(location);
-                setVisible(false);
-              }}
-              title={location}
-            />
-          ))}
-        </Menu> */}
-          <Menu
             visible={visible}
             onDismiss={() => setVisible(false)}
             anchor={
@@ -118,7 +86,42 @@ const Mainpage = () => {
                 titleStyle={{ color: 'black' }}
               />
             ))}
-          </Menu>
+          </Menu> */}
+          <Menu
+  visible={visible}
+  onDismiss={() => setVisible(false)}
+  anchor={
+    <TouchableOpacity
+      style={styles2.input}
+      onPress={() => setVisible(true)}
+      onLayout={(event) => {
+        const { width } = event.nativeEvent.layout;
+        setInputWidth(width); // store button width
+      }}
+    >
+      <Text style={selected ? styles2.inputText : styles2.placeholderText}>
+        {selected || 'Select location'}
+      </Text>
+    </TouchableOpacity>
+  }
+  anchorPosition="bottom"
+  contentStyle={[
+    styles2.menuContent,
+    { width: inputWidth } // dynamically set width
+  ]}
+>
+  {locations.map((location, index) => (
+    <Menu.Item
+      key={index}
+      onPress={() => {
+        setSelected(location);
+        setVisible(false);
+      }}
+      title={location}
+      titleStyle={{ color: 'black' }}
+    />
+  ))}
+</Menu>
 
 
 
@@ -237,19 +240,32 @@ const styles2 = StyleSheet.create({
   inputText: {
     color: '#000',
   },
+  // menuContent: {
+  //   width: '145%', // 👈 Optional: match input width
+  //   alignSelf: 'center',
+  //   backgroundColor: '#fff',
+  //   borderRadius: 12,
+  //   elevation: 2,
+  //   shadowColor: '#000',
+  //   shadowOffset: { width: 0, height: 2 },
+  //   shadowOpacity: 0.2,
+  //   shadowRadius: 4,
+  //   marginTop: 0, // Tweak as needed
+  //   marginLeft: 110
+  // },
   menuContent: {
-    width: '145%', // 👈 Optional: match input width
-    alignSelf: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    marginTop: 0, // Tweak as needed
-    marginLeft: 110
-  },
+  alignSelf: 'center',
+  backgroundColor: '#fff',
+  borderRadius: 12,
+  elevation: 2,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  marginTop: 0,
+  marginLeft: 110
+}
+
 });
 
 
